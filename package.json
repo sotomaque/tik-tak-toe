@@ -13,8 +13,16 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn typecheck && yarn prettier:write && yarn lint"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
     }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tslint",
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "expo": "~40.0.0",
