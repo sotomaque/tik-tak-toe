@@ -8,7 +8,13 @@
     "eject": "expo eject",
     "typecheck": "tsc",
     "prettier:check": "npx prettier --check .",
-    "prettier:write": "npx prettier --write ."
+    "prettier:write": "npx prettier --write .",
+    "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn typecheck && yarn prettier:write && yarn lint"
+    }
   },
   "dependencies": {
     "expo": "~40.0.0",
@@ -26,7 +32,9 @@
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-react": "^7.22.0",
+    "husky": "^5.1.3",
     "prettier": "2.2.1",
     "typescript": "~4.0.0"
   },
