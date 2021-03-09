@@ -16,7 +16,7 @@ const Stack = createStackNavigator<StackNavigatorParams>();
 const Navigator = (): ReactElement => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
+      <Stack.Navigator initialRouteName='Home' headerMode='none'>
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Game' component={Game} />
       </Stack.Navigator>
