@@ -1132,6 +1132,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@expo-google-fonts/delius-unicase@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/delius-unicase/-/delius-unicase-0.1.0.tgz#e108e4122b60f2acd9f14368c44a10db3062fb89"
+  integrity sha512-Dcem7EzYtLpG4EJBJO1T6zg6dqqyBy1Q4qOoB3kiz3RwWbnjuEHsYPB/O3TUlKXE1z9h+ybREXSIUWlp9qqqTA==
+
 "@expo/config-plugins@1.0.20":
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-1.0.20.tgz#b1964daf063d7ce07c3f135aa92ccf1c60cd6e46"
