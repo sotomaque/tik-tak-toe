@@ -1,4 +1,4 @@
 import Home from './home';
-import Game from './game';
+import SinglePlayerGame from './single-player-game';
 
-export { Home, Game };
+export { Home, SinglePlayerGame };

@@ -20,7 +20,7 @@ const Home = ({ navigation }: HomeProps): ReactElement => {
           <Button
             style={styles.button}
             title={'Single Player'}
-            onPress={() => console.warn('pressed')}
+            onPress={() => navigation.navigate('SinglePlayerGame')}
           />
           <Button style={styles.button} title={'Mulitplayer'} />
           <Button style={styles.button} title={'Login'} />
