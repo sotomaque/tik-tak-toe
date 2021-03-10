@@ -1,17 +1,22 @@
 import React, { ReactElement } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
+import { BoardState } from '@utils';
 import Text from '../Text';
 
-type Cell = 'x' | 'o' | null;
-
 type BoardProps = {
-  state: [Cell, Cell, Cell, Cell, Cell, Cell, Cell, Cell, Cell];
+  state: BoardState;
+  disabled?: boolean;
   size: number;
   onCellPressed: (index: number) => void;
 };
 
-const Board = ({ state, size, onCellPressed }: BoardProps): ReactElement => {
+const Board = ({
+  state,
+  size,
+  onCellPressed,
+  disabled,
+}: BoardProps): ReactElement => {
   return (
     <View
       style={{
@@ -25,6 +30,7 @@ const Board = ({ state, size, onCellPressed }: BoardProps): ReactElement => {
       {state.map((cell, index) => {
         return (
           <TouchableOpacity
+            disabled={cell !== null || disabled}
             onPress={() => onCellPressed && onCellPressed(index)}
             key={index}
             style={{
