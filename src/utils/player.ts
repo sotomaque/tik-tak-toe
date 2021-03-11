@@ -1,4 +1,4 @@
-import { isTerminal, getAvailableMoves, printFormattedBoard } from './board';
+import { isTerminal, getAvailableMoves } from './board';
 import { BoardState } from './types';
 
 /**
@@ -44,7 +44,6 @@ export const getBestMove = (
       getAvailableMoves(state).forEach(index => {
         const childNode: BoardState = [...state];
         childNode[index] = 'x';
-        printFormattedBoard(childNode);
         const childValue = getBestMoveRecursive(
           childNode,
           false,
@@ -69,7 +68,6 @@ export const getBestMove = (
       getAvailableMoves(state).forEach(index => {
         const childNode: BoardState = [...state];
         childNode[index] = 'o';
-        printFormattedBoard(childNode);
         const childValue = getBestMoveRecursive(
           childNode,
           true,
