@@ -1,10 +1,15 @@
-import React, { ReactElement, useState, useEffect, useRef } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
-import { Audio } from 'expo-av';
-import * as Haptics from 'expo-haptics';
 
 import { Board, GradientBackground } from '@components';
-import { BoardState, isTerminal, getBestMove, isBoardEmpty } from '@utils';
+import {
+  BoardState,
+  isTerminal,
+  getBestMove,
+  isBoardEmpty,
+  Cell,
+} from '@utils';
+import { useSounds } from '@hooks';
 import styles from './styles';
 
 const SinglePlayerGame = (): ReactElement => {
@@ -17,9 +22,8 @@ const SinglePlayerGame = (): ReactElement => {
     Math.random() < 0.5 ? 'HUMAN' : 'BOT'
   );
   const [isHumanMaximizing, setisHumanMaximizing] = useState<boolean>(true);
+  const playSound = useSounds();
   const gameResult = isTerminal(state);
-  const popSoundRef = useRef<Audio.Sound | null>(null);
-  const pop2SoundRef = useRef<Audio.Sound | null>(null);
 
   const insertCell = (cell: number, symbol: 'x' | 'o'): void => {
     const stateCopy: BoardState = [...state];
@@ -28,14 +32,7 @@ const SinglePlayerGame = (): ReactElement => {
     stateCopy[cell] = symbol;
     setState(stateCopy);
     // play sound + haptics
-    try {
-      symbol === 'x'
-        ? popSoundRef.current?.replayAsync()
-        : pop2SoundRef.current?.replayAsync();
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (error) {
-      console.error('error playing sound', error);
-    }
+    symbol === 'x' ? playSound('pop1') : playSound('pop2');
   };
 
   const handleOnCellPressed = (cell: number): void => {
@@ -44,10 +41,28 @@ const SinglePlayerGame = (): ReactElement => {
     setTurn('BOT');
   };
 
+  const getWinner = (winnerSymbol: Cell): 'HUMAN' | 'BOT' | 'DRAW' => {
+    if (winnerSymbol === 'x') {
+      return isHumanMaximizing ? 'HUMAN' : 'BOT';
+    } else if (winnerSymbol === 'o') {
+      return isHumanMaximizing ? 'BOT' : 'HUMAN';
+    } else return 'DRAW';
+  };
+
   useEffect(() => {
     if (gameResult) {
       // TODO: handle game ended
-      alert('GAME OVER');
+      const winner = getWinner(gameResult.winner);
+      if (winner === 'HUMAN') {
+        playSound('win');
+        alert('You Won!');
+      } else if (winner === 'BOT') {
+        playSound('loss');
+        alert('You Loss');
+      } else {
+        playSound('draw');
+        alert(`It's a Draw!`);
+      }
     } else {
       if (turn === 'BOT') {
         if (isBoardEmpty(state)) {
@@ -61,40 +76,13 @@ const SinglePlayerGame = (): ReactElement => {
           setisHumanMaximizing(false); // since computer went first and first mover gets assigned x
           setTurn('HUMAN');
         } else {
-          const bestPossibleMove = getBestMove(
-            state,
-            !isHumanMaximizing,
-            0,
-            -1
-          ); // -1 maxDepth => hardest difficulty
+          const bestPossibleMove = getBestMove(state, !isHumanMaximizing, 0, 1); // -1 maxDepth => hardest difficulty
           insertCell(bestPossibleMove, isHumanMaximizing ? 'o' : 'x');
           setTurn('HUMAN');
         }
       }
     }
   }, [state, turn]);
-
-  useEffect(() => {
-    // load sounds on mount
-    const popSoundObj = new Audio.Sound();
-    const pop2SoundObj = new Audio.Sound();
-
-    const loadSounds = async () => {
-      // sound 1
-      await popSoundObj.loadAsync(require('@assets/pop_1.wav'));
-      popSoundRef.current = popSoundObj;
-      await pop2SoundObj.loadAsync(require('@assets/pop_2.wav'));
-      pop2SoundRef.current = pop2SoundObj;
-    };
-
-    loadSounds();
-
-    return () => {
-      // un-load sounds on unmount
-      popSoundObj && popSoundObj.unloadAsync();
-      pop2SoundObj && pop2SoundObj.unloadAsync();
-    };
-  }, []);
 
   return (
     <GradientBackground>
