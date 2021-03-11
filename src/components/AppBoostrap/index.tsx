@@ -15,6 +15,7 @@ const AppBoostrap = ({ children }: AppBoostrapProps): ReactElement => {
     DeliusUnicase_400Regular,
     DeliusUnicase_700Bold,
   });
+
   if (!fontLoaded) return <AppLoading />;
 
   return fontLoaded ? <>{children}</> : <AppLoading />;

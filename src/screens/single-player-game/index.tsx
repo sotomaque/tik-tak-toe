@@ -92,6 +92,7 @@ const SinglePlayerGame = (): ReactElement => {
           onCellPressed={cell => handleOnCellPressed(cell)}
           state={state}
           size={300}
+          gameResult={gameResult}
         />
       </SafeAreaView>
     </GradientBackground>

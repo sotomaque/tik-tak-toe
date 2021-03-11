@@ -1,13 +1,14 @@
 import React, { ReactElement } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
-import { BoardState } from '@utils';
-import Text from '../Text';
+import { BoardResult, BoardState } from '@utils';
+import { BoardLine, Text } from '../index';
 
 type BoardProps = {
   state: BoardState;
   disabled?: boolean;
   size: number;
+  gameResult?: BoardResult | false;
   onCellPressed: (index: number) => void;
 };
 
@@ -15,6 +16,7 @@ const Board = ({
   state,
   size,
   onCellPressed,
+  gameResult,
   disabled,
 }: BoardProps): ReactElement => {
   return (
@@ -54,6 +56,12 @@ const Board = ({
           </TouchableOpacity>
         );
       })}
+      {true && (
+        <BoardLine
+          size={size}
+          gameResult={{ winner: 'o', diagonal: 'MAIN', direction: 'D' }}
+        />
+      )}
     </View>
   );
 };
