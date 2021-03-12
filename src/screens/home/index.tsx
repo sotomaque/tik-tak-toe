@@ -24,7 +24,10 @@ const Home = ({ navigation }: HomeProps): ReactElement => {
           />
           <Button style={styles.button} title={'Mulitplayer'} />
           <Button style={styles.button} title={'Login'} />
-          <Button title={'Settings'} />
+          <Button
+            title={'Settings'}
+            onPress={() => navigation.navigate('Settings')}
+          />
         </View>
       </ScrollView>
     </GradientBackground>
