@@ -7,7 +7,7 @@ type TextProps = {
 } & NativeTextProps;
 
 const defaultProps = {
-  weight: '400',
+  weight: '700',
 };
 
 const Text = ({

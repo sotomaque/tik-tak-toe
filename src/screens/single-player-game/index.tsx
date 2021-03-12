@@ -1,7 +1,7 @@
 import React, { ReactElement, useState, useEffect } from 'react';
-import { SafeAreaView, Dimensions } from 'react-native';
+import { SafeAreaView, Dimensions, View } from 'react-native';
 
-import { Board, GradientBackground } from '@components';
+import { Board, Button, GradientBackground, Text } from '@components';
 import {
   BoardState,
   isTerminal,
@@ -24,6 +24,11 @@ const SinglePlayerGame = (): ReactElement => {
     Math.random() < 0.5 ? 'HUMAN' : 'BOT'
   );
   const [isHumanMaximizing, setisHumanMaximizing] = useState<boolean>(true);
+  const [gamesCount, setGamesCount] = useState({
+    wins: 0,
+    losses: 0,
+    ties: 0,
+  });
   const playSound = useSounds();
   const gameResult = isTerminal(state);
 
@@ -57,13 +62,22 @@ const SinglePlayerGame = (): ReactElement => {
       const winner = getWinner(gameResult.winner);
       if (winner === 'HUMAN') {
         playSound('win');
-        alert('You Won!');
+        setGamesCount({
+          ...gamesCount,
+          wins: gamesCount.wins + 1,
+        });
       } else if (winner === 'BOT') {
         playSound('loss');
-        alert('You Loss');
+        setGamesCount({
+          ...gamesCount,
+          losses: gamesCount.losses + 1,
+        });
       } else {
         playSound('draw');
-        alert(`It's a Draw!`);
+        setGamesCount({
+          ...gamesCount,
+          ties: gamesCount.ties + 1,
+        });
       }
     } else {
       if (turn === 'BOT') {
@@ -86,9 +100,47 @@ const SinglePlayerGame = (): ReactElement => {
     }
   }, [state, turn]);
 
+  const startNewGame = () => {
+    // clear board
+    setState([null, null, null, null, null, null, null, null, null]);
+    // set turn to random player
+    setTurn(Math.random() < 0.5 ? 'HUMAN' : 'BOT');
+  };
+
   return (
     <GradientBackground>
       <SafeAreaView style={styles.container}>
+        <View>
+          <Text style={styles.difficultyText} weight='700'>
+            Difficulty
+          </Text>
+          <View style={styles.results}>
+            <View style={styles.resultsBox}>
+              <Text style={styles.resultsTitle} weight='700'>
+                Wins
+              </Text>
+              <Text style={styles.resultsCount} weight='700'>
+                {gamesCount.wins}
+              </Text>
+            </View>
+            <View style={styles.resultsBox}>
+              <Text style={styles.resultsTitle} weight='700'>
+                Draws
+              </Text>
+              <Text style={styles.resultsCount} weight='700'>
+                {gamesCount.ties}
+              </Text>
+            </View>
+            <View style={styles.resultsBox}>
+              <Text style={styles.resultsTitle} weight='700'>
+                Losses
+              </Text>
+              <Text style={styles.resultsCount} weight='700'>
+                {gamesCount.losses}
+              </Text>
+            </View>
+          </View>
+        </View>
         <Board
           disabled={!!isTerminal(state) || turn !== 'HUMAN'}
           onCellPressed={cell => handleOnCellPressed(cell)}
@@ -96,6 +148,16 @@ const SinglePlayerGame = (): ReactElement => {
           size={SCREEN_WIDTH - 60}
           gameResult={gameResult}
         />
+        {gameResult && (
+          <View style={styles.modal}>
+            <Text style={styles.modalText} weight='700'>
+              {getWinner(gameResult.winner) === 'HUMAN' && 'You Won!'}
+              {getWinner(gameResult.winner) === 'BOT' && 'You Lost'}
+              {getWinner(gameResult.winner) === 'DRAW' && `It's a Draw!`}
+            </Text>
+            <Button title='Play Again' onPress={startNewGame} />
+          </View>
+        )}
       </SafeAreaView>
     </GradientBackground>
   );

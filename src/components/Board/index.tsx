@@ -53,12 +53,7 @@ const Board = ({
           </TouchableOpacity>
         );
       })}
-      {true && (
-        <BoardLine
-          size={size}
-          gameResult={{ winner: 'o', diagonal: 'MAIN', direction: 'D' }}
-        />
-      )}
+      {gameResult && <BoardLine size={size} gameResult={gameResult} />}
     </View>
   );
 };
