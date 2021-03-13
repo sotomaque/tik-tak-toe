@@ -10,11 +10,13 @@ import {
   Cell,
 } from '@utils';
 import { useSounds } from '@hooks';
+import { useSettings, difficulties } from '@context/settings-context';
 import styles from './styles';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 const SinglePlayerGame = (): ReactElement => {
+  const { settings } = useSettings();
   // prettier-ignore
   const [state, setState] = useState<BoardState>(
     [null, null, null,
@@ -92,7 +94,12 @@ const SinglePlayerGame = (): ReactElement => {
           setisHumanMaximizing(false); // since computer went first and first mover gets assigned x
           setTurn('HUMAN');
         } else {
-          const bestPossibleMove = getBestMove(state, !isHumanMaximizing, 0, 1); // -1 maxDepth => hardest difficulty
+          const bestPossibleMove = getBestMove(
+            state,
+            !isHumanMaximizing,
+            0,
+            settings ? parseInt(settings?.difficulty) : -1
+          ); // -1 maxDepth => hardest difficulty
           insertCell(bestPossibleMove, isHumanMaximizing ? 'o' : 'x');
           setTurn('HUMAN');
         }
@@ -112,7 +119,8 @@ const SinglePlayerGame = (): ReactElement => {
       <SafeAreaView style={styles.container}>
         <View>
           <Text style={styles.difficultyText} weight='700'>
-            Difficulty
+            Difficulty:{' '}
+            {settings ? difficulties[settings.difficulty] : 'Beginner'}
           </Text>
           <View style={styles.results}>
             <View style={styles.resultsBox}>

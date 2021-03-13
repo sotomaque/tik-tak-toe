@@ -2,9 +2,12 @@ import { useRef, useEffect } from 'react';
 import { Audio } from 'expo-av';
 import * as Haptics from 'expo-haptics';
 
+import { useSettings } from '@context/settings-context';
+
 type SoundType = 'pop1' | 'pop2' | 'win' | 'loss' | 'draw';
 
 function useSounds(): (sound: SoundType) => void {
+  const { settings } = useSettings();
   const popSoundRef = useRef<Audio.Sound | null>(null);
   const pop2SoundRef = useRef<Audio.Sound | null>(null);
   const winSoundRef = useRef<Audio.Sound | null>(null);
@@ -21,30 +24,36 @@ function useSounds(): (sound: SoundType) => void {
     };
     try {
       const status = await soundsMap[sound].current?.getStatusAsync();
-      status && status.isLoaded && soundsMap[sound].current?.replayAsync();
-      switch (sound) {
-        case 'pop1': {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          break;
+      status &&
+        status.isLoaded &&
+        settings?.sounds &&
+        soundsMap[sound].current?.replayAsync();
+
+      if (settings?.haptics) {
+        switch (sound) {
+          case 'pop1': {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            break;
+          }
+          case 'pop2': {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            break;
+          }
+          case 'win': {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            break;
+          }
+          case 'loss': {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            break;
+          }
+          case 'draw': {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            break;
+          }
+          default:
+            break;
         }
-        case 'pop2': {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          break;
-        }
-        case 'win': {
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-          break;
-        }
-        case 'loss': {
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-          break;
-        }
-        case 'draw': {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-          break;
-        }
-        default:
-          break;
       }
     } catch (error) {
       console.error('error playing sound', error);
