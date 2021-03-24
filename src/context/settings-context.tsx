@@ -9,6 +9,8 @@ import React, {
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
+// Difficulty key represents the depth our
+// simulation will run before making an 'optimal' decision
 const difficulties = {
   '1': 'Beginner',
   '3': 'Intermediate',
