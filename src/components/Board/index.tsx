@@ -2,7 +2,8 @@ import React, { ReactElement } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
 import { BoardResult, BoardState } from '@utils';
-import { BoardLine, Text } from '../index';
+import BoardLine from '../BoardLine';
+import Text from '../Text';
 
 import styles from './styles';
 
