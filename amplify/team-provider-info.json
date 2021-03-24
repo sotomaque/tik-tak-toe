@@ -10,6 +10,11 @@
       "StackName": "amplify-tiktaktoe-dev-212941",
       "StackId": "arn:aws:cloudformation:us-west-2:979146382617:stack/amplify-tiktaktoe-dev-212941/8f3698b0-8c59-11eb-b68c-0a14a5ae98bb",
       "AmplifyAppId": "dsuqam92vco21"
+    },
+    "categories": {
+      "auth": {
+        "tiktaktoe711f6363": {}
+      }
     }
   }
 }
