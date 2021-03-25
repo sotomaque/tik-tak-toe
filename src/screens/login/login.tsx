@@ -1,13 +1,17 @@
 import React, { ReactElement } from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 
-import { Text } from '@components';
+import { GradientBackground, TextInput } from '@components';
+import styles from './styles';
 
 const Login = (): ReactElement => {
   return (
-    <View>
-      <Text>Login</Text>
-    </View>
+    <GradientBackground>
+      <ScrollView contentContainerStyle={styles.container}>
+        {/* Login Form */}
+        <TextInput placeholder='Username' />
+      </ScrollView>
+    </GradientBackground>
   );
 };
 

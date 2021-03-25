@@ -4,3 +4,4 @@ export { default as BoardLine } from './BoardLine';
 export { default as Button } from './Button';
 export { default as GradientBackground } from './GradientBackground';
 export { default as Text } from './Text';
+export { default as TextInput } from './TextInput';
