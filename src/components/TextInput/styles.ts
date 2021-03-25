@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.purple,
     padding: 10,
     fontFamily: 'DeliusUnicase_400Regular',
+    color: 'white',
   },
 });
 
