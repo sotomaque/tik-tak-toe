@@ -23,7 +23,11 @@ const Home = ({ navigation }: HomeProps): ReactElement => {
             onPress={() => navigation.navigate('SinglePlayerGame')}
           />
           <Button style={styles.button} title={'Mulitplayer'} />
-          <Button style={styles.button} title={'Login'} />
+          <Button
+            style={styles.button}
+            title={'Login'}
+            onPress={() => navigation.navigate('Login')}
+          />
           <Button
             title={'Settings'}
             onPress={() => navigation.navigate('Settings')}
