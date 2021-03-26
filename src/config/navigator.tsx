@@ -6,12 +6,13 @@ import {
 } from '@react-navigation/stack';
 
 import { colors } from '@utils';
-import { Home, Settings, SinglePlayerGame, Login } from '@screens';
+import { Home, Login, Settings, Signup, SinglePlayerGame } from '@screens';
 
 export type StackNavigatorParams = {
   Home: undefined;
   Login: undefined;
   Settings: undefined;
+  Signup: undefined;
   SinglePlayerGame: undefined;
 };
 
@@ -57,6 +58,7 @@ const Navigator = (): ReactElement => {
         />
         <Stack.Screen name='Settings' component={Settings} />
         <Stack.Screen name='Login' component={Login} />
+        <Stack.Screen name='Signup' component={Signup} />
       </Stack.Navigator>
     </NavigationContainer>
   );
