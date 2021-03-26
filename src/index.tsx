@@ -2,6 +2,8 @@ import React, { ReactElement } from 'react';
 
 import { AppBoostrap } from '@components';
 import Navigator from '@config/navigator';
+
+import { AuthProvider } from '@context/auth-context';
 import { SettingsProvider } from '@context/settings-context';
 
 import Amplify from 'aws-amplify';
@@ -10,11 +12,13 @@ Amplify.configure(config);
 
 function App(): ReactElement {
   return (
-    <AppBoostrap>
-      <SettingsProvider>
-        <Navigator />
-      </SettingsProvider>
-    </AppBoostrap>
+    <AuthProvider>
+      <AppBoostrap>
+        <SettingsProvider>
+          <Navigator />
+        </SettingsProvider>
+      </AppBoostrap>
+    </AuthProvider>
   );
 }
 

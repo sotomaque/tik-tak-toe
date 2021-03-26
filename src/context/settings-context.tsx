@@ -43,15 +43,15 @@ const SettingsContext = createContext<SettingsContextType | undefined>(
   undefined
 );
 
-function useSettings(): SettingsContextType {
+const useSettings = (): SettingsContextType => {
   const context = useContext(SettingsContext);
   if (!context) {
     throw new Error('useSettings must be used within settings provider');
   }
   return context;
-}
+};
 
-function SettingsProvider(props: { children: ReactNode }): ReactElement {
+const SettingsProvider = (props: { children: ReactNode }): ReactElement => {
   const [settings, setSettings] = useState<SettingsType | null>(null);
 
   // load settings from async storage
@@ -95,6 +95,6 @@ function SettingsProvider(props: { children: ReactNode }): ReactElement {
       }}
     />
   );
-}
+};
 
 export { useSettings, SettingsProvider, difficulties };

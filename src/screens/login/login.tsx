@@ -1,35 +1,74 @@
-import React, { ReactElement, useRef } from 'react';
-import { ScrollView, TextInput as RNTextInput } from 'react-native';
+import React, { ReactElement, useRef, useState } from 'react';
+import { Alert, ScrollView, TextInput as RNTextInput } from 'react-native';
+import { Auth } from 'aws-amplify';
 
-import { GradientBackground, TextInput } from '@components';
+import { Button, GradientBackground, TextInput } from '@components';
 import styles from './styles';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigatorParams } from '@config/navigator';
 
-const Login = (): ReactElement => {
+type LoginProps = {
+  navigation: StackNavigationProp<StackNavigatorParams, 'Login'>;
+};
+
+const Login = ({ navigation }: LoginProps): ReactElement => {
   const passwordRef = useRef<RNTextInput | null>(null);
+  const [form, setForm] = useState({
+    username: '',
+    password: '',
+  });
+  const [loading, setLoading] = useState(false);
+
+  const setFormInput = (key: keyof typeof form, value: string): void => {
+    setForm({ ...form, [key]: value });
+  };
+
+  const handleLogin = async () => {
+    setLoading(true);
+    const { username, password } = form;
+    try {
+      await Auth.signIn(username, password);
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error('error logining in', error);
+      Alert.alert('Error!', error?.message || 'An error occured!');
+    }
+
+    setLoading(false);
+  };
 
   return (
     <GradientBackground>
       <ScrollView contentContainerStyle={styles.container}>
         {/* Login Form */}
         <TextInput
-          placeholder='Username'
-          autoCorrect={false}
           autoCapitalize={'none'}
+          autoCorrect={false}
           autoFocus
-          style={{
-            marginBottom: 20,
-          }}
-          returnKeyType='next'
+          onChangeText={value => setFormInput('username', value)}
           onSubmitEditing={() => {
             passwordRef.current?.focus();
           }}
+          placeholder='Username'
+          returnKeyType='next'
+          style={{
+            marginBottom: 20,
+          }}
+          value={form.username}
         />
         <TextInput
-          ref={passwordRef}
+          onChangeText={value => setFormInput('password', value)}
           placeholder='Password'
-          secureTextEntry={true}
+          ref={passwordRef}
           returnKeyType='done'
+          secureTextEntry={true}
+          style={{
+            marginBottom: 20,
+          }}
+          value={form.password}
         />
+
+        <Button title='Login' onPress={handleLogin} loading={loading} />
       </ScrollView>
     </GradientBackground>
   );
