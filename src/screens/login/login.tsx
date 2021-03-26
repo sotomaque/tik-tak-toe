@@ -1,11 +1,15 @@
-import React, { ReactElement, useRef, useState } from 'react';
-import { Alert, ScrollView, TextInput as RNTextInput } from 'react-native';
-import { Auth } from 'aws-amplify';
-
-import { Button, GradientBackground, TextInput } from '@components';
-import styles from './styles';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { Button, GradientBackground, Text, TextInput } from '@components';
 import { StackNavigatorParams } from '@config/navigator';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { Auth } from 'aws-amplify';
+import React, { ReactElement, useRef, useState } from 'react';
+import {
+  Alert,
+  ScrollView,
+  TextInput as RNTextInput,
+  TouchableOpacity,
+} from 'react-native';
+import styles from './styles';
 
 type LoginProps = {
   navigation: StackNavigationProp<StackNavigatorParams, 'Login'>;
@@ -69,6 +73,12 @@ const Login = ({ navigation }: LoginProps): ReactElement => {
         />
 
         <Button title='Login' onPress={handleLogin} loading={loading} />
+
+        <TouchableOpacity>
+          <Text style={{ color: 'white', textAlign: 'center', marginTop: 80 }}>
+            Dont Have an Account?
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </GradientBackground>
   );

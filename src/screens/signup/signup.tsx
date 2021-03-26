@@ -1,11 +1,10 @@
+import { Button, GradientBackground, TextInput } from '@components';
+import { StackNavigatorParams } from '@config/navigator';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { Auth } from 'aws-amplify';
 import React, { ReactElement, useRef, useState } from 'react';
 import { Alert, ScrollView, TextInput as RNTextInput } from 'react-native';
-import { Auth } from 'aws-amplify';
-
-import { Button, GradientBackground, TextInput } from '@components';
 import styles from './styles';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { StackNavigatorParams } from '@config/navigator';
 
 type SignupProps = {
   navigation: StackNavigationProp<StackNavigatorParams, 'Signup'>;
