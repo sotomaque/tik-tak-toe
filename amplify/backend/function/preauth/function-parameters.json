@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "api": {
+      "tiktaktoe": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
