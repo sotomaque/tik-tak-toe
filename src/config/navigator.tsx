@@ -1,12 +1,11 @@
-import React, { ReactElement } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack';
-
-import { colors } from '@utils';
 import { Home, Login, Settings, Signup, SinglePlayerGame } from '@screens';
+import { colors } from '@utils';
+import React, { ReactElement } from 'react';
 
 export type StackNavigatorParams = {
   Home: undefined;
@@ -58,7 +57,11 @@ const Navigator = (): ReactElement => {
         />
         <Stack.Screen name='Settings' component={Settings} />
         <Stack.Screen name='Login' component={Login} />
-        <Stack.Screen name='Signup' component={Signup} />
+        <Stack.Screen
+          name='Signup'
+          component={Signup}
+          options={{ title: 'Sign-Up' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

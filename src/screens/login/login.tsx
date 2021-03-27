@@ -74,10 +74,8 @@ const Login = ({ navigation }: LoginProps): ReactElement => {
 
         <Button title='Login' onPress={handleLogin} loading={loading} />
 
-        <TouchableOpacity>
-          <Text style={{ color: 'white', textAlign: 'center', marginTop: 80 }}>
-            Dont Have an Account?
-          </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <Text style={styles.registerLink}>Don&apos;t Have an Account?</Text>
         </TouchableOpacity>
       </ScrollView>
     </GradientBackground>
