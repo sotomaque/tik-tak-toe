@@ -2,19 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getPlayer = /* GraphQL */ `
-  query GetPlayer($username: String!) {
-    getPlayer(username: $username) {
-      id
-      cognitoId
-      username
-      name
-      email
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const listPlayers = /* GraphQL */ `
   query ListPlayers(
     $username: String
@@ -38,8 +25,86 @@ export const listPlayers = /* GraphQL */ `
         email
         createdAt
         updatedAt
+        games {
+          nextToken
+        }
       }
       nextToken
+    }
+  }
+`;
+export const getPlayer = /* GraphQL */ `
+  query GetPlayer($username: String!) {
+    getPlayer(username: $username) {
+      id
+      cognitoId
+      username
+      name
+      email
+      createdAt
+      updatedAt
+      games {
+        items {
+          id
+          createdAt
+          gameId
+          playerUsername
+          owners
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const listGames = /* GraphQL */ `
+  query ListGames(
+    $filter: ModelGameFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listGames(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        status
+        owners
+        initiator
+        turn
+        state
+        winner
+        createdAt
+        updatedAt
+        players {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getGame = /* GraphQL */ `
+  query GetGame($id: ID!) {
+    getGame(id: $id) {
+      id
+      status
+      owners
+      initiator
+      turn
+      state
+      winner
+      createdAt
+      updatedAt
+      players {
+        items {
+          id
+          createdAt
+          gameId
+          playerUsername
+          owners
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;

@@ -18,9 +18,45 @@ type Player
   username: String!
   name: String!
   email: AWSEmail!
+  games: [PlayerGame] @connection(keyName: "byPlayer", fields: ["username"])
 }
 
-type Game @model {
+type PlayerGame
+  @model(queries: null)
+  @key(name: "byGame", fields: ["gameId"])
+  @key(name: "byPlayer", fields: ["playerUsername", "createdAt"])
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read] }
+      {
+        allow: private
+        provider: iam
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  createdAt: String!
+  gameId: ID!
+  playerUsername: String!
+  owners: [String!]!
+
+  game: Game! @connection(fields: ["gameId"])
+  player: Player! @connection(fields: ["playerUsername"])
+}
+
+type Game
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read] }
+      {
+        allow: private
+        provider: iam
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
   id: ID!
   status: GameStatus!
   owners: [String!]!
@@ -28,6 +64,7 @@ type Game @model {
   turn: String!
   state: [Symbol]!
   winner: String
+  players: [PlayerGame] @connection(keyName: "byGame", fields: ["id"])
 }
 
 enum GameStatus {
