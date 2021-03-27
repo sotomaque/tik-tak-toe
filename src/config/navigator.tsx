@@ -11,7 +11,7 @@ export type StackNavigatorParams = {
   Home: undefined;
   Login: undefined;
   Settings: undefined;
-  Signup: undefined;
+  Signup: { username: string; password: string } | undefined;
   SinglePlayerGame: undefined;
 };
 

@@ -1,8 +1,8 @@
-import { useRef, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { useSettings } from '@context/settings-context';
 import { Audio } from 'expo-av';
 import * as Haptics from 'expo-haptics';
-
-import { useSettings } from '@context/settings-context';
+import { useEffect, useRef } from 'react';
 
 type SoundType = 'pop1' | 'pop2' | 'win' | 'loss' | 'draw';
 

@@ -34,8 +34,12 @@ const Login = ({ navigation }: LoginProps): ReactElement => {
       await Auth.signIn(username, password);
       navigation.navigate('Home');
     } catch (error) {
-      console.error('error logining in', error);
-      Alert.alert('Error!', error?.message || 'An error occured!');
+      if (error.code === 'UserNotConfirmedException') {
+        navigation.navigate('Signup', { username, password });
+      } else {
+        console.error('error logining in', error);
+        Alert.alert('Error!', error?.message || 'An error occured!');
+      }
     }
 
     setLoading(false);

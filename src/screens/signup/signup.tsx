@@ -1,9 +1,11 @@
 import { Button, GradientBackground, Text, TextInput } from '@components';
 import { StackNavigatorParams } from '@config/navigator';
+import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp, useHeaderHeight } from '@react-navigation/stack';
 import OTPInput from '@twotalltotems/react-native-otp-input';
+import { colors } from '@utils';
 import { Auth } from 'aws-amplify';
-import React, { ReactElement, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -11,14 +13,19 @@ import {
   Platform,
   ScrollView,
   TextInput as RNTextInput,
+  TouchableOpacity,
 } from 'react-native';
 import styles from './styles';
 
 type SignupProps = {
   navigation: StackNavigationProp<StackNavigatorParams, 'Signup'>;
+  route: RouteProp<StackNavigatorParams, 'Signup'>;
 };
 
-const Signup = ({ navigation }: SignupProps): ReactElement => {
+const Signup = ({ navigation, route }: SignupProps): ReactElement => {
+  const unconfirmedUser = route.params?.username;
+  const unconfirmedUserPassword = route.params?.password;
+
   // Refs for jumping from one input to the next with keyboard
   const emailRef = useRef<RNTextInput | null>(null);
   const nameRef = useRef<RNTextInput | null>(null);
@@ -31,7 +38,9 @@ const Signup = ({ navigation }: SignupProps): ReactElement => {
     password: '',
   });
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState<'signUp' | 'otp'>('signUp');
+  const [step, setStep] = useState<'signUp' | 'otp'>(
+    unconfirmedUser ? 'otp' : 'signUp'
+  );
 
   const headerHeight = useHeaderHeight();
 
@@ -63,14 +72,42 @@ const Signup = ({ navigation }: SignupProps): ReactElement => {
   const handleConfirmCode = async (code: string) => {
     try {
       setLoading(true);
-      await Auth.confirmSignUp(form.username, code);
+      const username = unconfirmedUser ? unconfirmedUser : form.username;
+      const password = unconfirmedUserPassword
+        ? unconfirmedUserPassword
+        : form.password;
+      await Auth.confirmSignUp(username, code);
+      await Auth.signIn(username, password);
       navigation.navigate('Home');
-      Alert.alert('Success', 'You can now login with your new account');
     } catch (error) {
       Alert.alert('Error', 'An error occurred!');
     }
     setLoading(false);
   };
+
+  const handleResendCode = async () => {
+    try {
+      setLoading(true);
+      await Auth.resendSignUp(form.username);
+      Alert.alert('Success', 'Code has been resent');
+    } catch (error) {
+      Alert.alert('Error', 'An error occurred!');
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    const verifyUser = async (username: string): Promise<void> => {
+      try {
+        await Auth.resendSignUp(username);
+      } catch (error) {
+        Alert.alert('Error', 'An error occurred!');
+      }
+    };
+    if (unconfirmedUser) {
+      verifyUser(unconfirmedUser);
+    }
+  }, []);
 
   return (
     <GradientBackground>
@@ -82,7 +119,7 @@ const Signup = ({ navigation }: SignupProps): ReactElement => {
         <ScrollView contentContainerStyle={styles.container}>
           {step === 'otp' ? (
             loading ? (
-              <ActivityIndicator />
+              <ActivityIndicator color={colors.lightGreen} />
             ) : (
               <>
                 <Text style={styles.instructionsLabel}>
@@ -98,6 +135,12 @@ const Signup = ({ navigation }: SignupProps): ReactElement => {
                   placeholderTextColor='#5d5379'
                   style={{ width: '85%', alignSelf: 'center' }}
                 />
+
+                <TouchableOpacity onPress={handleResendCode}>
+                  <Text weight='700' style={styles.resendCodeLabel}>
+                    Resend Code
+                  </Text>
+                </TouchableOpacity>
               </>
             )
           ) : (

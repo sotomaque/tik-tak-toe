@@ -25,6 +25,14 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     fontSize: 18,
   },
+  resendCodeLabel: {
+    color: colors.lightGreen,
+    textAlign: 'center',
+    marginTop: 5,
+    fontSize: 14,
+    fontFamily: 'DeliusUnicase_700Bold',
+    textDecorationLine: 'underline',
+  },
 });
 
 export default styles;
