@@ -22,7 +22,7 @@ type SignupProps = {
   route: RouteProp<StackNavigatorParams, 'Signup'>;
 };
 
-const Signup = ({ navigation, route }: SignupProps): ReactElement => {
+const ChangePassword = ({ navigation, route }: SignupProps): ReactElement => {
   const unconfirmedUser = route.params?.username;
   const unconfirmedUserPassword = route.params?.password;
 
@@ -213,4 +213,4 @@ const Signup = ({ navigation, route }: SignupProps): ReactElement => {
   );
 };
 
-export default Signup;
+export default ChangePassword;

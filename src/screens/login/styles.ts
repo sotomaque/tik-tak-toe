@@ -11,6 +11,11 @@ const styles = StyleSheet.create({
     marginTop: 80,
     textDecorationLine: 'underline',
   },
+  forgotPasswordLabel: {
+    color: colors.lightGreen,
+    marginBottom: 20,
+    justifyContent: 'flex-end',
+  },
 });
 
 export default styles;

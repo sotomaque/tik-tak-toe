@@ -76,8 +76,14 @@ const Login = ({ navigation }: LoginProps): ReactElement => {
           value={form.password}
         />
 
-        <Button title='Login' onPress={handleLogin} loading={loading} />
+        <TouchableOpacity
+          style={{ flexDirection: 'row', justifyContent: 'flex-end' }}
+          onPress={() => navigation.navigate('ForgotPassword')}
+        >
+          <Text style={styles.forgotPasswordLabel}>Forgot Password?</Text>
+        </TouchableOpacity>
 
+        <Button title='Login' onPress={handleLogin} loading={loading} />
         <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
           <Text style={styles.registerLink}>Don&apos;t Have an Account?</Text>
         </TouchableOpacity>
