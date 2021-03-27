@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  changePasswordLabel: {
+    color: colors.lightGreen,
+    marginTop: 30,
+    fontSize: 18,
+    textDecorationLine: 'underline',
+  },
 });
 
 export default styles;

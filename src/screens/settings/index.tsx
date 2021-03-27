@@ -1,20 +1,28 @@
+import { GradientBackground, Text } from '@components';
+import { StackNavigatorParams } from '@config/navigator';
+import { useAuth } from '@context/auth-context';
+import { difficulties, useSettings } from '@context/settings-context';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { colors } from '@utils';
 import React, { ReactElement } from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  View,
-  TouchableOpacity,
   Switch,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-
-import { useSettings, difficulties } from '@context/settings-context';
-import { GradientBackground, Text } from '@components';
-import { colors } from '@utils';
 import styles from './styles';
 
-const Settings = (): ReactElement | null => {
+type SettingsProps = {
+  navigation: StackNavigationProp<StackNavigatorParams, 'Settings'>;
+};
+
+const Settings = ({ navigation }: SettingsProps): ReactElement | null => {
   // dont show UI until settings are loaded
   const { settings, saveSetting } = useSettings();
+  const { user } = useAuth();
+
   if (!settings) return null;
 
   return (
@@ -96,6 +104,16 @@ const Settings = (): ReactElement | null => {
               }}
             />
           </View>
+
+          {user && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ChangePassword')}
+            >
+              <Text weight='700' style={styles.changePasswordLabel}>
+                Change Password
+              </Text>
+            </TouchableOpacity>
+          )}
         </ScrollView>
       </SafeAreaView>
     </GradientBackground>
