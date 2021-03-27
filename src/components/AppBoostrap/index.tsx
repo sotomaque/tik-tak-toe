@@ -1,13 +1,12 @@
-import React, { ReactElement, ReactNode, useState, useEffect } from 'react';
+import { useAuth } from '@context/auth-context';
 import {
-  useFonts,
   DeliusUnicase_400Regular,
   DeliusUnicase_700Bold,
+  useFonts,
 } from '@expo-google-fonts/delius-unicase';
-import AppLoading from 'expo-app-loading';
 import { Auth, Hub } from 'aws-amplify';
-
-import { useAuth } from '@context/auth-context';
+import AppLoading from 'expo-app-loading';
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 
 type AppBoostrapProps = {
   children: ReactNode;
@@ -29,7 +28,7 @@ const AppBoostrap = ({ children }: AppBoostrapProps): ReactElement => {
           setUser(res);
         }
       } catch (error) {
-        console.error('error getting current user', error);
+        // console.error('error getting current user', error);
       }
       setAuthLoaded(true);
     };

@@ -24,7 +24,6 @@ type SignupProps = {
 
 const Signup = ({ navigation, route }: SignupProps): ReactElement => {
   const unconfirmedUser = route.params?.username;
-  const unconfirmedUserPassword = route.params?.password;
 
   // Refs for jumping from one input to the next with keyboard
   const emailRef = useRef<RNTextInput | null>(null);
@@ -62,10 +61,9 @@ const Signup = ({ navigation, route }: SignupProps): ReactElement => {
       });
       setStep('otp');
     } catch (error) {
-      console.error('error signing up', error);
       Alert.alert('Error!', error?.message || 'An error occured!');
+      console.error('error signing up', error);
     }
-
     setLoading(false);
   };
 
@@ -73,14 +71,11 @@ const Signup = ({ navigation, route }: SignupProps): ReactElement => {
     try {
       setLoading(true);
       const username = unconfirmedUser ? unconfirmedUser : form.username;
-      const password = unconfirmedUserPassword
-        ? unconfirmedUserPassword
-        : form.password;
       await Auth.confirmSignUp(username, code);
-      await Auth.signIn(username, password);
       navigation.navigate('Home');
     } catch (error) {
       Alert.alert('Error', 'An error occurred!');
+      console.error(error);
     }
     setLoading(false);
   };
@@ -93,6 +88,7 @@ const Signup = ({ navigation, route }: SignupProps): ReactElement => {
       Alert.alert('Success', 'Code has been resent');
     } catch (error) {
       Alert.alert('Error', 'An error occurred!');
+      console.error(error);
     }
     setLoading(false);
   };
@@ -103,6 +99,7 @@ const Signup = ({ navigation, route }: SignupProps): ReactElement => {
         await Auth.resendSignUp(username);
       } catch (error) {
         Alert.alert('Error', 'An error occurred!');
+        console.error('error in use effect', error);
       }
     };
     if (unconfirmedUser) {
