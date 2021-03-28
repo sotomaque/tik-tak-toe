@@ -1,13 +1,11 @@
-import React, { ReactElement, useState } from 'react';
-import { ScrollView, View, Image, Alert } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-
-import { StackNavigatorParams } from '@config/navigator';
-import { GradientBackground, Button, Text } from '@components';
-
-import styles from './styles';
-import { useAuth } from '@context/auth-context';
 import Auth from '@aws-amplify/auth';
+import { Button, GradientBackground, Text } from '@components';
+import { StackNavigatorParams } from '@config/navigator';
+import { useAuth } from '@context/auth-context';
+import { StackNavigationProp } from '@react-navigation/stack';
+import React, { ReactElement, useState } from 'react';
+import { Alert, Image, ScrollView, View } from 'react-native';
+import styles from './styles';
 
 type HomeProps = {
   navigation: StackNavigationProp<StackNavigatorParams, 'Home'>;
@@ -41,7 +39,11 @@ const Home = ({ navigation }: HomeProps): ReactElement => {
             style={styles.button}
             title={'Single Player'}
           />
-          <Button style={styles.button} title={'Mulitplayer'} />
+          <Button
+            style={styles.button}
+            title={'Mulitplayer'}
+            onPress={() => navigation.navigate('MultiplayerHome')}
+          />
           <Button
             loading={loading}
             onPress={handleLogin}

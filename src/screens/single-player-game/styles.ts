@@ -1,8 +1,9 @@
-import { colors } from '@utils';
+import { colors, globalStyles } from '@utils';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
+    ...globalStyles.container,
     flex: 1,
     alignItems: 'center',
     marginTop: 80,

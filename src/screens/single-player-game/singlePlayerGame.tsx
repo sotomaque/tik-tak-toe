@@ -1,16 +1,15 @@
-import React, { ReactElement, useState, useEffect } from 'react';
-import { SafeAreaView, Dimensions, View } from 'react-native';
-
 import { Board, Button, GradientBackground, Text } from '@components';
+import { difficulties, useSettings } from '@context/settings-context';
+import { useSounds } from '@hooks';
 import {
   BoardState,
-  isTerminal,
+  Cell,
   getBestMove,
   isBoardEmpty,
-  Cell,
+  isTerminal,
 } from '@utils';
-import { useSounds } from '@hooks';
-import { useSettings, difficulties } from '@context/settings-context';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { Dimensions, SafeAreaView, View } from 'react-native';
 import styles from './styles';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;

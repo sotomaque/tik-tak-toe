@@ -1,8 +1,9 @@
+import { globalStyles } from '@utils';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    ...globalStyles.container,
   },
   textInput: {
     marginTop: 20,
