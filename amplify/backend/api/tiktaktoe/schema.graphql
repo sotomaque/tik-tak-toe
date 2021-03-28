@@ -1,3 +1,21 @@
+type Mutation {
+  startGame(invitee: String!): GameData
+    @function(name: "createGame-${env}")
+    @aws_cognito_user_pools
+
+  playMove(game: ID!, index: Int!): GameData
+    @function(name: "playMove-${env}")
+    @aws_cognito_user_pools
+}
+
+type GameData {
+  id: ID!
+  status: GameStatus!
+  turn: String!
+  state: [Symbol]!
+  winner: String
+}
+
 type Player
   @model
   @key(fields: ["username"])

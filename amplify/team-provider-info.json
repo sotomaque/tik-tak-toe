@@ -23,6 +23,10 @@
         "preauth": {
           "deploymentBucketName": "amplify-tiktaktoe-dev-212941-deployment",
           "s3Key": "amplify-builds/preauth-45336f424b742b776b46-build.zip"
+        },
+        "createGame": {
+          "deploymentBucketName": "amplify-tiktaktoe-dev-212941-deployment",
+          "s3Key": "amplify-builds/createGame-486e35336c7451552f47-build.zip"
         }
       }
     }
