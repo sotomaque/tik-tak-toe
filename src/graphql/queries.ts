@@ -57,6 +57,38 @@ export const getPlayer = /* GraphQL */ `
     }
   }
 `;
+export const searchPlayers = /* GraphQL */ `
+  query SearchPlayers(
+    $filter: SearchablePlayerFilterInput
+    $sort: SearchablePlayerSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchPlayers(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        cognitoId
+        username
+        name
+        email
+        createdAt
+        updatedAt
+        games {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
 export const listGames = /* GraphQL */ `
   query ListGames(
     $filter: ModelGameFilterInput

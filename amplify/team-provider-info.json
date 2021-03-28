@@ -18,15 +18,19 @@
       "function": {
         "postConfirmation": {
           "deploymentBucketName": "amplify-tiktaktoe-dev-212941-deployment",
-          "s3Key": "amplify-builds/postConfirmation-524744644d48386b515a-build.zip"
+          "s3Key": "amplify-builds/postConfirmation-43645134484363656139-build.zip"
         },
         "preauth": {
           "deploymentBucketName": "amplify-tiktaktoe-dev-212941-deployment",
-          "s3Key": "amplify-builds/preauth-45336f424b742b776b46-build.zip"
+          "s3Key": "amplify-builds/preauth-546d364a304c78754a34-build.zip"
         },
         "createGame": {
           "deploymentBucketName": "amplify-tiktaktoe-dev-212941-deployment",
-          "s3Key": "amplify-builds/createGame-486e35336c7451552f47-build.zip"
+          "s3Key": "amplify-builds/createGame-732b4a6c4a5641464859-build.zip"
+        },
+        "playMove": {
+          "deploymentBucketName": "amplify-tiktaktoe-dev-212941-deployment",
+          "s3Key": "amplify-builds/playMove-4f4d4a32344d78337975-build.zip"
         }
       }
     }

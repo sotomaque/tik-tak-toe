@@ -254,6 +254,78 @@ export type ModelPlayerConnection = {
   nextToken?: string | null,
 };
 
+export type SearchablePlayerFilterInput = {
+  id?: SearchableIDFilterInput | null,
+  cognitoId?: SearchableStringFilterInput | null,
+  username?: SearchableStringFilterInput | null,
+  name?: SearchableStringFilterInput | null,
+  email?: SearchableStringFilterInput | null,
+  and?: Array< SearchablePlayerFilterInput | null > | null,
+  or?: Array< SearchablePlayerFilterInput | null > | null,
+  not?: SearchablePlayerFilterInput | null,
+};
+
+export type SearchableIDFilterInput = {
+  ne?: string | null,
+  gt?: string | null,
+  lt?: string | null,
+  gte?: string | null,
+  lte?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+  range?: Array< string | null > | null,
+};
+
+export type SearchableStringFilterInput = {
+  ne?: string | null,
+  gt?: string | null,
+  lt?: string | null,
+  gte?: string | null,
+  lte?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+  range?: Array< string | null > | null,
+};
+
+export type SearchablePlayerSortInput = {
+  field?: SearchablePlayerSortableFields | null,
+  direction?: SearchableSortDirection | null,
+};
+
+export enum SearchablePlayerSortableFields {
+  id = "id",
+  cognitoId = "cognitoId",
+  username = "username",
+  name = "name",
+  email = "email",
+}
+
+
+export enum SearchableSortDirection {
+  asc = "asc",
+  desc = "desc",
+}
+
+
+export type SearchablePlayerConnection = {
+  __typename: "SearchablePlayerConnection",
+  items?:  Array<Player | null > | null,
+  nextToken?: string | null,
+  total?: number | null,
+};
+
 export type ModelGameFilterInput = {
   id?: ModelIDInput | null,
   status?: ModelGameStatusInput | null,
@@ -696,6 +768,36 @@ export type GetPlayerQuery = {
   } | null,
 };
 
+export type SearchPlayersQueryVariables = {
+  filter?: SearchablePlayerFilterInput | null,
+  sort?: SearchablePlayerSortInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  from?: number | null,
+};
+
+export type SearchPlayersQuery = {
+  searchPlayers?:  {
+    __typename: "SearchablePlayerConnection",
+    items?:  Array< {
+      __typename: "Player",
+      id: string,
+      cognitoId: string,
+      username: string,
+      name: string,
+      email: string,
+      createdAt: string,
+      updatedAt: string,
+      games?:  {
+        __typename: "ModelPlayerGameConnection",
+        nextToken?: string | null,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    total?: number | null,
+  } | null,
+};
+
 export type ListGamesQueryVariables = {
   filter?: ModelGameFilterInput | null,
   limit?: number | null,
@@ -731,6 +833,38 @@ export type GetGameQueryVariables = {
 
 export type GetGameQuery = {
   getGame?:  {
+    __typename: "Game",
+    id: string,
+    status: GameStatus,
+    owners: Array< string >,
+    initiator: string,
+    turn: string,
+    state: Array< Symbol | null >,
+    winner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    players?:  {
+      __typename: "ModelPlayerGameConnection",
+      items?:  Array< {
+        __typename: "PlayerGame",
+        id: string,
+        createdAt: string,
+        gameId: string,
+        playerUsername: string,
+        owners: Array< string >,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateGameByIdSubscriptionVariables = {
+  id?: string,
+};
+
+export type OnUpdateGameByIdSubscription = {
+  onUpdateGameById?:  {
     __typename: "Game",
     id: string,
     status: GameStatus,
