@@ -39,7 +39,7 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
         const res = await Auth.currentAuthenticatedUser();
         setUser(res);
       } catch (error) {
-        console.error('error getting current user', error);
+        // console.error('error getting current user', error);
         setUser(null);
       }
     };

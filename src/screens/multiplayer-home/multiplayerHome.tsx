@@ -1,13 +1,25 @@
-import { GradientBackground } from '@components';
-import React from 'react';
-import { Text, View } from 'react-native';
+import { GradientBackground, Text } from '@components';
+import { useAuth } from '@context/auth-context';
+import React, { ReactElement } from 'react';
+import { ScrollView, View } from 'react-native';
+import styles from './styles';
 
-const MultiplayerHome = (): React.ReactElement => {
+const MultiplayerHome = (): ReactElement => {
+  const { user } = useAuth();
+
   return (
     <GradientBackground>
-      <View>
-        <Text>fdfdf</Text>
-      </View>
+      {user ? (
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.text}>{user.username}</Text>
+        </ScrollView>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.text}>
+            You must be logged in to play multiplayer games
+          </Text>
+        </View>
+      )}
     </GradientBackground>
   );
 };

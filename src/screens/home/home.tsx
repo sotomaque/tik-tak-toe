@@ -42,7 +42,13 @@ const Home = ({ navigation }: HomeProps): ReactElement => {
           <Button
             style={styles.button}
             title={'Mulitplayer'}
-            onPress={() => navigation.navigate('MultiplayerHome')}
+            onPress={() => {
+              if (user) {
+                navigation.navigate('MultiplayerHome');
+              } else {
+                navigation.navigate('Login', { redirect: 'MultiplayerHome' });
+              }
+            }}
           />
           <Button
             loading={loading}

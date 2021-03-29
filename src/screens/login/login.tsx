@@ -1,5 +1,6 @@
 import { Button, GradientBackground, Text, TextInput } from '@components';
 import { StackNavigatorParams } from '@config/navigator';
+import { RouteProp } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Auth } from 'aws-amplify';
 import React, { ReactElement, useRef, useState } from 'react';
@@ -13,9 +14,11 @@ import styles from './styles';
 
 type LoginProps = {
   navigation: StackNavigationProp<StackNavigatorParams, 'Login'>;
+  route: RouteProp<StackNavigatorParams, 'Login'>;
 };
 
-const Login = ({ navigation }: LoginProps): ReactElement => {
+const Login = ({ navigation, route }: LoginProps): ReactElement => {
+  const redirect = route.params?.redirect;
   const passwordRef = useRef<RNTextInput | null>(null);
   const [form, setForm] = useState({
     username: '',
@@ -32,7 +35,7 @@ const Login = ({ navigation }: LoginProps): ReactElement => {
     const { username, password } = form;
     try {
       await Auth.signIn(username, password);
-      navigation.navigate('Home');
+      redirect ? navigation.replace(redirect) : navigation.navigate('Home');
     } catch (error) {
       if (error.code === 'UserNotConfirmedException') {
         navigation.navigate('Signup', { username });

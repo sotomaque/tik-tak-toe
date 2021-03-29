@@ -84,7 +84,7 @@ const ChangePassword = ({ navigation }: ChangePasswordProps): ReactElement => {
             value={form.newPassword}
           />
           <Button
-            title='Signup'
+            title='Submit'
             loading={loading}
             onPress={handleChangePassword}
             disabled={!form.oldPassword || !form.newPassword}
