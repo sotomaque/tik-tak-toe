@@ -17,7 +17,8 @@
       "@hooks": ["src/hooks"],
       "@context/*": ["src/context/*"],
       "@config/*": ["src/config/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@api": ["src/API.ts"]
     }
   }
 }
