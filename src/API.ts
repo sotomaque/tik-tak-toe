@@ -743,31 +743,38 @@ export type GetPlayerQueryVariables = {
 };
 
 export type GetPlayerQuery = {
-  getPlayer?:  {
+  getPlayer:  {
     __typename: "Player",
     id: string,
-    cognitoId: string,
-    username: string,
-    name: string,
-    email: string,
-    createdAt: string,
-    updatedAt: string,
-    games?:  {
+    games:  {
       __typename: "ModelPlayerGameConnection",
-      items?:  Array< {
+      items:  Array< {
         __typename: "PlayerGame",
-        id: string,
-        createdAt: string,
-        gameId: string,
-        playerUsername: string,
-        owners: Array< string >,
-        updatedAt: string,
+        game:  {
+          __typename: "Game",
+          id: string,
+          initiator: string,
+          owners: Array< string >,
+          status: GameStatus,
+          turn: string,
+          winner: string | null,
+          players:  {
+            __typename: "ModelPlayerGameConnection",
+            items:  Array< {
+              __typename: "PlayerGame",
+              player:  {
+                __typename: "Player",
+                name: string,
+                username: string,
+              },
+            } | null > | null,
+          } | null,
+        },
       } | null > | null,
-      nextToken?: string | null,
+      nextToken: string | null,
     } | null,
   } | null,
 };
-
 export type SearchPlayersQueryVariables = {
   filter?: SearchablePlayerFilterInput | null,
   sort?: SearchablePlayerSortInput | null,
@@ -1224,6 +1231,7 @@ export type getPlayerQuery = {
           initiator: string,
           owners: Array< string >,
           status: GameStatus,
+          turn: string,
           winner?: string | null,
           players?:  {
             __typename: "ModelPlayerGameConnection",
@@ -1231,8 +1239,8 @@ export type getPlayerQuery = {
               __typename: "PlayerGame",
               player:  {
                 __typename: "Player",
-                username: string,
                 name: string,
+                username: string,
               },
             } | null > | null,
           } | null,

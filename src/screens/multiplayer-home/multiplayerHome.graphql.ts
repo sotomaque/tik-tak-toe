@@ -20,12 +20,13 @@ export const getPlayer = gql`
             initiator
             owners
             status
+            turn
             winner
             players {
               items {
                 player {
-                  username
                   name
+                  username
                 }
               }
             }
